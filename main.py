@@ -2,13 +2,25 @@ import time
 import csv
 
 
-def add_task(tasks):
+def csv_to_list(tasks):
+    with open('task_list.csv', newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        j = 0
+        for row in reader:
+            for _ in row:
+                tasks.append(row[j])
+                j += 1
+    return tasks
+
+
+def add_task():
     name = input("\nTask Name: ")
     with open('task_list.csv', 'a', newline='') as csvfile:
         if csvfile.tell() == 0:
             csvfile.write(name)
         else:
             csvfile.write("," + name)
+        print("Task Added")
 
 
 def complete_task(tasks):
@@ -19,8 +31,6 @@ def complete_task(tasks):
         n += 1
     name = int(input("\nEnter Number to Complete: "))
     tasks.remove(tasks[1-n])
-    print("\nTask Completed")
-    time.sleep(.4)
     return tasks
 
 
@@ -31,22 +41,19 @@ def rm_task(tasks):
         print(f"{n}. {task}")
         n += 1
     name = int(input("\nEnter Number to Delete: "))
-    tasks.remove(tasks[1-name])
-    print("\nTask Deleted")
-    time.sleep(.4)
-    return tasks
+    csv_to_list(tasks)
+    with open("task_list.csv", 'w', newline='') as csvfile:
+        csvfile
+
+    print("Task Deleted")
+    #tasks.remove(tasks[1-name])
+    #return tasks
 
 
 def main():
     while True:
         tasks = []
-        with open('task_list.csv', newline='') as csvfile:
-            reader = csv.reader(csvfile)
-            j = 0
-            for row in reader:
-                for _ in row:
-                    tasks.append(row[j])
-                    j += 1
+        csv_to_list(tasks)
         print("\nToDo App\n")
         if len(tasks) > 0:
             for task in tasks:
