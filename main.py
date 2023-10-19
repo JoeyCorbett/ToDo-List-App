@@ -4,9 +4,11 @@ import csv
 
 def add_task(tasks):
     name = input("\nTask Name: ")
-
-    tasks.append(name)
-    return tasks
+    with open('task_list.csv', 'a', newline='') as csvfile:
+        if csvfile.tell() == 0:
+            csvfile.write(name)
+        else:
+            csvfile.write("," + name)
 
 
 def complete_task(tasks):
@@ -36,15 +38,15 @@ def rm_task(tasks):
 
 
 def main():
-    tasks = []
-    with open('task_list.csv', newline='') as csvfile:
-        reader = csv.reader(csvfile)
-        j = 0
-        for row in reader:
-            for n in row:
-                tasks.append(row[j])
-                j += 1
     while True:
+        tasks = []
+        with open('task_list.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            j = 0
+            for row in reader:
+                for _ in row:
+                    tasks.append(row[j])
+                    j += 1
         print("\nToDo App\n")
         if len(tasks) > 0:
             for task in tasks:
