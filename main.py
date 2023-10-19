@@ -40,14 +40,22 @@ def rm_task(tasks):
     for task in tasks:
         print(f"{n}. {task}")
         n += 1
+    # TODO: fix bug allowing user to enter number out of range
     name = int(input("\nEnter Number to Delete: "))
-    csv_to_list(tasks)
-    with open("task_list.csv", 'w', newline='') as csvfile:
-        csvfile
-
+    data = list(tasks)
+    data.remove(data[1-name])
+    with open('task_list.csv', 'w', newline='') as csvfile:
+        j = 0
+        for x in data:
+            if len(data) > 1:
+                if j > 0:
+                    csvfile.write(',' + x)
+                else:
+                    csvfile.write(x)
+            else:
+                csvfile.write(x)
+            j += 1
     print("Task Deleted")
-    #tasks.remove(tasks[1-name])
-    #return tasks
 
 
 def main():
@@ -64,7 +72,7 @@ def main():
         while True:
             choice = input("Enter Number: ")
             if choice == "1":
-                add_task(tasks)
+                add_task()
                 break
             elif choice == "2":
                 if len(tasks) > 0:
