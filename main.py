@@ -34,16 +34,22 @@ def complete_task(tasks):
     return tasks
 
 
+# copies csv file to list, removes tasks from list, writes list to csv file formatted
 def rm_task(tasks):
     print()
     n = 1
     for task in tasks:
         print(f"{n}. {task}")
         n += 1
-    # TODO: fix bug allowing user to enter number out of range
-    name = int(input("\nEnter Number to Delete: "))
-    data = list(tasks)
-    data.remove(data[1-name])
+    # Doesn't allow user to enter number outside or range
+    while True:
+        name = int(input("\nEnter Number to Delete: "))
+        if name < n or name >= n:
+            print("Invalid Task Number")
+        else:
+            data = list(tasks)
+            data.remove(data[1-name])
+            break
     with open('task_list.csv', 'w', newline='') as csvfile:
         j = 0
         for x in data:
