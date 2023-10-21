@@ -13,6 +13,20 @@ def csv_to_list(tasks):
     return tasks
 
 
+def list_to_csv(data):
+    with open('task_list.csv', 'w', newline='') as csvfile:
+        j = 0
+        for x in data:
+            if len(data) > 1:
+                if j > 0:
+                    csvfile.write(',' + x)
+                else:
+                    csvfile.write(x)
+            else:
+                csvfile.write(x)
+            j += 1
+
+
 def add_task():
     name = input("\nTask Name: ")
     with open('task_list.csv', 'a', newline='') as csvfile:
@@ -26,12 +40,20 @@ def add_task():
 def complete_task(tasks):
     print()
     n = 1
-    for tasks in tasks:
-        print(f"{n}. {tasks}")
+    for task in tasks:
+        print(f"{n}. {task}")
         n += 1
-    name = int(input("\nEnter Number to Complete: "))
-    tasks.remove(tasks[1-n])
-    return tasks
+    # Doesn't allow user to enter number outside or range
+    while True:
+        name = int(input("\nEnter Number to Complete: "))
+        if name < n or name >= n:
+            print("Invalid Task Number")
+        else:
+            data = list(tasks)
+            data.remove(data[1 - name])
+            break
+    list_to_csv(data)
+    print("Task Completed")
 
 
 # copies csv file to list, removes tasks from list, writes list to csv file formatted
@@ -44,23 +66,13 @@ def rm_task(tasks):
     # Doesn't allow user to enter number outside or range
     while True:
         name = int(input("\nEnter Number to Delete: "))
-        if name < n or name >= n:
+        if name < 1 or name >= n:
             print("Invalid Task Number")
         else:
             data = list(tasks)
-            data.remove(data[1-name])
+            data.remove(data[name - 1])
             break
-    with open('task_list.csv', 'w', newline='') as csvfile:
-        j = 0
-        for x in data:
-            if len(data) > 1:
-                if j > 0:
-                    csvfile.write(',' + x)
-                else:
-                    csvfile.write(x)
-            else:
-                csvfile.write(x)
-            j += 1
+    list_to_csv(data)
     print("Task Deleted")
 
 
