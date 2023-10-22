@@ -1,5 +1,6 @@
 import time
 import csv
+import datetime
 
 
 def csv_to_list(tasks):
@@ -65,13 +66,15 @@ def rm_task(tasks):
         n += 1
     # Doesn't allow user to enter number outside or range
     while True:
-        name = int(input("\nEnter Number to Delete: "))
-        if name < 1 or name >= n:
-            print("Invalid Task Number")
-        else:
+        name = input("\nEnter Number to Delete: ")
+        if name == '':
+            print("Input is empty, Please enter a valid number")
+        elif int(name) >= 1 and int(name) >= n - 1:
             data = list(tasks)
-            data.remove(data[name - 1])
+            data.remove(data[int(name) - 1])
             break
+        else:
+            print("Invalid Task Number")
     list_to_csv(data)
     print("Task Deleted")
 
@@ -112,11 +115,10 @@ def main():
                     rm_task(tasks)
                     break
                 else:
-                    print("\nNo Tasks to Remove\n")
+                    print("\nNo Tasks to Delete\n")
                     time.sleep(.3)
             else:
                 print("\nInvalid Input\n")
-                time.sleep(.5)
 
 
 if __name__ == "__main__":
