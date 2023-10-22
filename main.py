@@ -77,10 +77,18 @@ def rm_task(tasks):
 
 
 def main():
+    print("\nPrioriTask")
     while True:
         tasks = []
         csv_to_list(tasks)
-        print("\nToDo App\n")
+        current_datetime = datetime.datetime.now()
+
+        print("\n" + current_datetime.strftime("%A")
+              + ", " + current_datetime.strftime("%B")
+              + " " + current_datetime.strftime("%d"))
+        print("----------------------")
+        print("0/5 Daily Tasks Completed\n")
+
         if len(tasks) > 0:
             for task in tasks:
                 print(f"• {task}")
