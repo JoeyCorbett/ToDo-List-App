@@ -2,6 +2,7 @@ import time
 import csv
 import datetime
 
+#tasks_done
 
 def csv_to_list(tasks):
     with open('task_list.csv', newline='') as csvfile:
@@ -47,14 +48,16 @@ def complete_task(tasks):
     # Doesn't allow user to enter number outside or range
     while True:
         name = int(input("\nEnter Number to Complete: "))
-        if name < n or name >= n:
-            print("Invalid Task Number")
-        else:
+        if name == '':
+            print("Input is empty, Please enter a valid number")
+        elif 1 <= int(name) < n:
             data = list(tasks)
             data.remove(data[1 - name])
             break
+        else:
+            print("Invalid Task number")
     list_to_csv(data)
-    print("Task Completed")
+    print("Task Completed\nGreat Job!")
 
 
 # copies csv file to list, removes tasks from list, writes list to csv file formatted
@@ -67,9 +70,16 @@ def rm_task(tasks):
     # Doesn't allow user to enter number outside or range
     while True:
         name = input("\nEnter Number to Delete: ")
+        choice = input("Are you sure? y/n: ").lower()
+        if choice == 'n':
+            continue
+        elif choice == 'y':
+            pass
+        else:
+            print("Invalid Input, please try again")
         if name == '':
             print("Input is empty, Please enter a valid number")
-        elif int(name) >= 1 and int(name) >= n - 1:
+        elif 1 <= int(name) < n:
             data = list(tasks)
             data.remove(data[int(name) - 1])
             break
@@ -85,13 +95,10 @@ def main():
         tasks = []
         csv_to_list(tasks)
         current_datetime = datetime.datetime.now()
-
         print("\n" + current_datetime.strftime("%A")
               + ", " + current_datetime.strftime("%B")
               + " " + current_datetime.strftime("%d"))
-        print("----------------------")
-        print("0/5 Daily Tasks Completed\n")
-
+        print("----------------------\n")
         if len(tasks) > 0:
             for task in tasks:
                 print(f"• {task}")
