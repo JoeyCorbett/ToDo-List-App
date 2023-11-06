@@ -100,6 +100,18 @@ def rm_task(tasks):
             break
         else:
             print("Invalid Task Number")
+    # TODO: fix so user can say no and go back to their list
+        choice = input("Are you sure? y/n: ")
+        if choice == 'n':
+            continue
+        elif choice == '':
+            print("Input is empty, enter valid entry")
+            continue
+        elif choice == 'y':
+            pass
+        else:
+            print("Invalid Input, please try again")
+            continue
     list_to_csv(data)
     print("Task Deleted")
 
