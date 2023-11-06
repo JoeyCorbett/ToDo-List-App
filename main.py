@@ -4,6 +4,7 @@ import datetime
 
 #tasks_done
 
+
 def csv_to_list(tasks):
     with open('task_list.csv', newline='') as csvfile:
         reader = csv.reader(csvfile)
@@ -31,6 +32,20 @@ def list_to_csv(data):
 
 def add_task():
     name = input("\nTask Name: ")
+    while True:
+        choice = input("Due Date?(y/n): ")
+        if choice.lower() == 'y':
+            current_date = datetime.datetime.now()
+            print("Current Date: ", current_date.strftime("%m/%d"))
+            due_date = input("Due Date(MM/DD): ")
+            name_date = str((name + " | Due: " + due_date))
+            break
+        elif choice.lower() == 'n':
+            name_date = str(name)
+            break
+        else:
+            print("Invalid Entry")
+            continue
     with open('task_list.csv', 'a', newline='') as csvfile:
         if csvfile.tell() == 0:
             csvfile.write(name)
